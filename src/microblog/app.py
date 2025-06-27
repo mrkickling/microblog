@@ -18,10 +18,10 @@ app = FastAPI()
 @app.on_event("startup")
 def create_admin_user():
     db: Session = SessionLocal()
+    username = os.getenv("MICROBLOG_ADMIN_USERNAME", "admin")
     try:
-        existing = db.query(User).filter(User.username == "admin").first()
+        existing = db.query(User).filter(User.username == username).first()
         if not existing:
-            username = os.getenv("MICROBLOG_ADMIN_USERNAME", "admin")
             password = os.getenv("MICROBLOG_ADMIN_PASSWORD", "password")
 
             hashed = bcrypt.hash(password)
