@@ -1,6 +1,8 @@
 # Microblog
 
-Start your own microblog with just one click!
+Start your own microblog with just one click! (not really one click, but it sounds good)
+
+I made this as an alternative to twitter. Currently you can not register users, so this is more like a self hosted extremely simple blog than a microblog as twitter or BlueSky. This fits my needs perfectly since I only every used twitter to write shitty takes that no one cares about, so it doesn't matter that no one can reply or register. In the future I might add this though.
 
 ## How to run the microblog - docker compose
 
