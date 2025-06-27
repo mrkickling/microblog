@@ -1,0 +1,38 @@
+[project]
+name = "microblog"
+version = "0.1.0"
+description = "A FastAPI project named microblog"
+
+dependencies = [
+    "fastapi",              # web app framework
+    "uvicorn[standard]",    # wsgi server
+    "Jinja2",               # Template engine
+    "alembic",              # Database migration
+    "sqlalchemy",           # To connect to database
+    "psycopg2-binary",      # Postgres
+    "python-multipart",     # Forms in fastapi
+    "passlib",
+    "itsdangerous",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "httpx",
+    "ruff",
+    "black",
+    "mypy",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"microblog" = ["templates/**/*"]
