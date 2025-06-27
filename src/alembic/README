@@ -1,0 +1,11 @@
+Generic single-database configuration.
+
+To create a new migration, update the models in sqlalchemy and run:
+
+`alembic revision --autogenerate -m "<message>"`
+
+Run:
+
+`alembic upgrade head`
+
+To upgrade to the latest revision.
