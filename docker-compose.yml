@@ -5,6 +5,7 @@ services:
     build: .
     environment:
       - DATABASE_URL=postgresql+psycopg2://user:password@postgres/microblog
+      - MICROBLOG_ADMIN_USERNAME=admin
       - MICROBLOG_ADMIN_PASSWORD=password
       - SESSION_SECRET_KEY=blablabla
     command: sh -c "alembic upgrade head && uvicorn microblog.app:app --host 0.0.0.0 --port 8000 --reload"

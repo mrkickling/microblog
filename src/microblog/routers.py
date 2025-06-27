@@ -48,7 +48,7 @@ class MicroblogOut(BaseModel):
     in_reply_to_user_id: Optional[int]
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 SECRET_KEY = os.environ["SESSION_SECRET_KEY"]
 

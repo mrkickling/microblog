@@ -50,8 +50,7 @@
     {% for post in posts %}
         <div class="post">
             <div class="meta">
-                <strong>User:</strong> {{ post.author.username }}<br>
-                <strong>Time:</strong> {{ post.created_at|format_datetime }}
+                {{ post.author.username }} {{ post.created_at|format_datetime }}
                 {% if post.in_reply_to_post_id %}
                     <br><strong>Reply to post ID:</strong> {{ post.in_reply_to_post_id }}
                 {% endif %}
@@ -66,17 +65,25 @@
     {% endfor %}
 
     {% if user_logged_in %}
+    <br>
     <form action="/auth/logout" method="post" style="display:inline;">
         <button type="submit" style="
-            background: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background-color: #555;
+            color: white;
+            padding: 0.5rem 1rem;
             border: none;
-            color: #d32f2f;
-            cursor: pointer;
+            border-radius: 4px;
             font-weight: bold;
-            margin-left: 1rem;
-        ">Logout</button>
+            cursor: pointer;
+            margin-bottom: 1rem;
+            margin-left: 0.5rem;
+        ">
+            &#x274C; Logout
+        </button>
     </form>
     {% endif %}
-
 </body>
 </html>

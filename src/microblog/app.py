@@ -21,12 +21,12 @@ def create_admin_user():
     try:
         existing = db.query(User).filter(User.username == "admin").first()
         if not existing:
-            password = os.getenv("MICROBLOG_ADMIN_PASSWORD")
-            if not password:
-                raise RuntimeError("MICROBLOG_ADMIN_PASSWORD is not set")
+            username = os.getenv("MICROBLOG_ADMIN_USERNAME", "admin")
+            password = os.getenv("MICROBLOG_ADMIN_PASSWORD", "password")
+
             hashed = bcrypt.hash(password)
             admin = User(
-                username="admin",
+                username=username,
                 email="admin@example.com",
                 hashed_password=hashed
             )
