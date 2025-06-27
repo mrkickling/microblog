@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Posts</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 2rem auto; }
+        .post { border-bottom: 1px solid #ccc; padding: 1rem 0; }
+        .meta { color: #666; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+    {% if not user_logged_in %}
+    <a href="/auth/login" style="
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background-color: #d32f2f;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: bold;
+        margin-bottom: 1rem;
+    ">
+        Login
+    </a>
+    {% endif %}
+
+
+    {% if user_logged_in %}
+    <a href="/posts/create" style="
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        background-color: #d32f2f;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: bold;
+        margin-bottom: 1rem;
+    ">
+        &#9998; Write post
+    </a>
+    {% endif %}
+
+    <h1>Microblog Posts</h1>
+    {% for post in posts %}
+        <div class="post">
+            <div class="meta">
+                <strong>User:</strong> {{ post.author.username }}<br>
+                <strong>Time:</strong> {{ post.created_at|format_datetime }}
+                {% if post.in_reply_to_post_id %}
+                    <br><strong>Reply to post ID:</strong> {{ post.in_reply_to_post_id }}
+                {% endif %}
+                {% if post.in_reply_to_user_id %}
+                    <br><strong>Reply to user ID:</strong> {{ post.in_reply_to_user_id }}
+                {% endif %}
+            </div>
+            <p>{{ post.content }}</p>
+        </div>
+    {% else %}
+        <p>No posts available.</p>
+    {% endfor %}
+
+    {% if user_logged_in %}
+    <form action="/auth/logout" method="post" style="display:inline;">
+        <button type="submit" style="
+            background: none;
+            border: none;
+            color: #d32f2f;
+            cursor: pointer;
+            font-weight: bold;
+            margin-left: 1rem;
+        ">Logout</button>
+    </form>
+    {% endif %}
+
+</body>
+</html>
