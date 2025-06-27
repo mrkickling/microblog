@@ -1,15 +1,14 @@
 import os
+from typing import Optional, List
+import secrets
 
-from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
-from typing import Optional, List
 
-from fastapi import Form
-from fastapi.templating import Jinja2Templates  
+from fastapi.templating import Jinja2Templates
 from fastapi.requests import Request
 from fastapi.responses import HTMLResponse, RedirectResponse
-from fastapi import Cookie, Response, Depends
+from fastapi import APIRouter, HTTPException, Cookie, Response, Depends, Form
 
 from passlib.hash import bcrypt
 
@@ -51,8 +50,7 @@ class MicroblogOut(BaseModel):
     class Config:
         orm_mode = True
 
-
-SECRET_KEY = "some-secret-key"
+SECRET_KEY = os.environ["SESSION_SECRET_KEY"]
 
 def create_session_token(user_id: int) -> str:
     # Simple example: sign user_id with SECRET_KEY, use itsdangerous or JWT
