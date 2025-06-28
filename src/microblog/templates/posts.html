@@ -2,102 +2,105 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Posts</title>
     <style>
+        * { box-sizing: border-box; }
         body { font-family: sans-serif; max-width: 600px; margin: 2rem auto; }
         .post { border-bottom: 1px solid #ccc; padding: 1rem 0; }
         .meta { color: #666; font-size: 0.9rem; }
+        .container { margin: 10px; }
     </style>
 </head>
 <body>
-
-    {% if not user_logged_in %}
-    <a href="/auth/login" style="
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        background-color: #d32f2f;
-        color: white;
-        padding: 0.5rem 1rem;
-        border-radius: 4px;
-        text-decoration: none;
-        font-weight: bold;
-        margin-bottom: 1rem;
-    ">
-        Login
-    </a>
-    {% endif %}
-
-
-    {% if user_logged_in %}
-    <a href="/posts/create" style="
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        background-color: #d32f2f;
-        color: white;
-        padding: 0.5rem 1rem;
-        border-radius: 4px;
-        text-decoration: none;
-        font-weight: bold;
-        margin-bottom: 1rem;
-    ">
-        &#9998; Write post
-    </a>
-    {% endif %}
-
-    <h1>Microblog Posts</h1>
-    {% for post in posts %}
-        <div class="post">
-            <div class="meta">
-                {{ post.author.username }} {{ post.created_at|format_datetime }}
-                {% if post.in_reply_to_post_id %}
-                    <br><strong>Reply to post ID:</strong> {{ post.in_reply_to_post_id }}
-                {% endif %}
-                {% if post.in_reply_to_user_id %}
-                    <br><strong>Reply to user ID:</strong> {{ post.in_reply_to_user_id }}
-                {% endif %}
-            </div>
-            <p>{{ post.content }}</p>
-        </div>
-    {% else %}
-        <p>No posts available.</p>
-    {% endfor %}
-
-    {% if user_logged_in %}
-    <br>
-    <form action="/auth/logout" method="post" style="display:inline;">
-        <button type="submit" style="
+    <div class="container">
+        {% if not user_logged_in %}
+        <a href="/auth/login" style="
             display: inline-flex;
             align-items: center;
             gap: 0.4rem;
-            background-color: #555;
+            background-color: #d32f2f;
             color: white;
             padding: 0.5rem 1rem;
-            border: none;
             border-radius: 4px;
+            text-decoration: none;
             font-weight: bold;
-            cursor: pointer;
             margin-bottom: 1rem;
-            margin-left: 0.5rem;
         ">
-            &#x274C; Logout
-        </button>
-    </form>
-    {% endif %}
+            Login
+        </a>
+        {% endif %}
 
-    <a href="https://github.com/mrkickling/microblog" style="
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        color: black;
-        padding: 0.5rem 1rem;
-        border-radius: 4px;
-        text-decoration: underline;
-        margin-bottom: 1rem;
-    ">
-        Source
-    </a>
 
+        {% if user_logged_in %}
+        <a href="/posts/create" style="
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background-color: #d32f2f;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        ">
+            &#9998; Write post
+        </a>
+        {% endif %}
+
+        <h1>Microblog Posts</h1>
+        {% for post in posts %}
+            <div class="post">
+                <div class="meta">
+                    {{ post.author.username }} {{ post.created_at|format_datetime }}
+                    {% if post.in_reply_to_post_id %}
+                        <br><strong>Reply to post ID:</strong> {{ post.in_reply_to_post_id }}
+                    {% endif %}
+                    {% if post.in_reply_to_user_id %}
+                        <br><strong>Reply to user ID:</strong> {{ post.in_reply_to_user_id }}
+                    {% endif %}
+                </div>
+                <p>{{ post.content }}</p>
+            </div>
+        {% else %}
+            <p>No posts available.</p>
+        {% endfor %}
+
+        {% if user_logged_in %}
+        <br>
+        <form action="/auth/logout" method="post" style="display:inline;">
+            <button type="submit" style="
+                display: inline-flex;
+                align-items: center;
+                gap: 0.4rem;
+                background-color: #555;
+                color: white;
+                padding: 0.5rem 1rem;
+                border: none;
+                border-radius: 4px;
+                font-weight: bold;
+                cursor: pointer;
+                margin-bottom: 1rem;
+                margin-left: 0.5rem;
+            ">
+                &#x274C; Logout
+            </button>
+        </form>
+        {% endif %}
+
+        <a href="https://github.com/mrkickling/microblog" style="
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: black;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            text-decoration: underline;
+            margin-bottom: 1rem;
+        ">
+            Source
+        </a>
+    </div>
 </body>
 </html>

@@ -2,26 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Post</title>
     <style>
+        * { box-sizing: border-box; }
         body { font-family: sans-serif; max-width: 600px; margin: 2rem auto; }
         form { display: flex; flex-direction: column; gap: 1rem; }
         label { font-weight: bold; }
         input, textarea { width: 100%; padding: 0.5rem; }
         button { padding: 0.5rem; }
+        .container { margin: 10px; }
     </style>
 </head>
 <body>
-    <h1>Log in to microblog</h1>
-    <form method="post">
-        <label for="username">Username</label>
-        <input type="text" name="username" required>
+    <div class="container">
+        <h1>Log in to microblog</h1>
+        <form method="post">
+            <label for="username">Username</label>
+            <input type="text" name="username" required>
 
-        <label for="username">Password</label>
-        <input type="password" name="password" required>
+            <label for="username">Password</label>
+            <input type="password" name="password" required>
 
 
-        <button type="submit">Login</button>
-    </form>
+            <button type="submit">Login</button>
+        </form>
+    </div>
 </body>
 </html>
