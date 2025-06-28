@@ -1,17 +1,14 @@
 # FastAPI application for a microblogging service
 import os
-from fastapi import FastAPI
 from sqlalchemy.orm import Session
 from passlib.hash import bcrypt
 
-from fastapi import FastAPI
 from fastapi.responses import HTMLResponse, RedirectResponse
-from fastapi.templating import Jinja2Templates
-from fastapi import Request
-from .routers import auth, posts, templates
+from fastapi import FastAPI, Request
 
 from .database import SessionLocal
 from .models import User
+from .routers import auth, posts
 
 app = FastAPI()
 
