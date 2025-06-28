@@ -4,15 +4,15 @@ version = "0.1.0"
 description = "A FastAPI project named microblog"
 
 dependencies = [
-    "fastapi",              # web app framework
-    "uvicorn[standard]",    # wsgi server
-    "Jinja2",               # Template engine
-    "alembic",              # Database migration
-    "sqlalchemy",           # To connect to database
-    "psycopg2-binary",      # Postgres
-    "python-multipart",     # Forms in fastapi
-    "passlib",
-    "itsdangerous",
+    "fastapi==0.115.13",            # web app framework
+    "uvicorn[standard]==0.34.3",    # wsgi server
+    "Jinja2",                       # Template engine
+    "alembic==1.16.2",              # Database migration
+    "sqlalchemy==2.0.41",           # To connect to database
+    "psycopg2-binary==2.9.10",      # Postgres
+    "python-multipart==0.0.20",     # Forms in fastapi
+    "passlib==1.7.4",
+    "itsdangerous==2.2.0",
 ]
 
 [project.optional-dependencies]
