@@ -51,7 +51,7 @@ def view_all_posts(
         {
             "request": request,
             "posts": all_posts,
-            "user_logged_in": user_id is not None
+            "user_logged_in": user_id
         }
     )
 
@@ -91,4 +91,28 @@ def create_post_via_form(
     )
     db.add(new_post)
     db.commit()
+    return RedirectResponse(url="/posts", status_code=303)
+
+
+@posts.post("/delete")
+def delete_post_via_form(
+    request: Request,
+    author_id: int = Depends(get_current_user_id),
+    post_id: Optional[str] = Form(None),
+    db: Session = Depends(get_db),
+):
+    """Create posts from submitted form"""
+    user = db.query(User).filter(User.id == author_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    post = db.query(MicroblogPost).filter(
+        MicroblogPost.id == post_id,
+        MicroblogPost.author_id == author_id
+    ).first()
+
+    if post:
+        db.delete(post)
+        db.commit()
+
     return RedirectResponse(url="/posts", status_code=303)
