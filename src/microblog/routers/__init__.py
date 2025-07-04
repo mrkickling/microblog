@@ -1,4 +1,5 @@
 from .auth import auth
 from .posts import posts
+from .users import users
 
-__all__ = ["api", "auth", "posts"]
+__all__ = ["auth", "posts", "users"]

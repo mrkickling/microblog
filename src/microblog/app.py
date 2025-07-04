@@ -5,10 +5,11 @@ from passlib.hash import bcrypt
 
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi import FastAPI, Request
+from fastapi.staticfiles import StaticFiles
 
 from .database import SessionLocal
 from .models import User
-from .routers import auth, posts
+from .routers import auth, posts, users
 
 app = FastAPI()
 
@@ -32,6 +33,11 @@ def create_admin_user():
     finally:
         db.close()
 
+static_path = os.path.join(
+    os.path.dirname(__file__), 'static'
+)
+
+app.mount("/static", StaticFiles(directory=static_path), name="static")
 
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
@@ -40,3 +46,4 @@ async def read_root(request: Request):
 # Include routers
 app.include_router(auth, prefix="/auth", tags=["auth"])
 app.include_router(posts, prefix="/posts", tags=["posts"])
+app.include_router(users, prefix="/users", tags=["users"])

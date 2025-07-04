@@ -14,7 +14,7 @@ def format_datetime(dt: datetime) -> str:
         return f"{minutes} min ago"
     elif delta < timedelta(days=1):
         hours = int(delta.total_seconds() // 3600)
-        return f"{hours} h ago"
+        return f"{hours}h ago"
     else:
         return dt.strftime("%a %b %-d, %Y %H:%M")
 

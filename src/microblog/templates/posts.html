@@ -3,57 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>All Posts</title>
-    <style>
-        * { box-sizing: border-box; }
-        body { font-family: sans-serif; max-width: 600px; margin: 2rem auto; }
-        .post { border-bottom: 1px solid #ccc; padding: 1rem 0; }
-        .meta { color: #666; font-size: 0.9rem; }
-        .container { margin: 10px; }
-    </style>
+    <title>Microblog</title>
+    <link href="{{ url_for('static', path='/style.css') }}" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         {% if not user_logged_in %}
-        <a href="/auth/login" style="
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            background-color: #d32f2f;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-bottom: 1rem;
-        ">
+        <a href="/auth/login" class="login-button">
             Login
         </a>
         {% endif %}
 
+        <h2>
+            <a href="/">Microblog</a>
+        </h2>
 
         {% if user_logged_in %}
-        <a href="/posts/create" style="
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            background-color: #d32f2f;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-bottom: 1rem;
-        ">
-            &#9998; Write post
-        </a>
+
+            {% include "create_post.html" %}
+
         {% endif %}
 
-        <h1>Microblog Posts</h1>
+
+        {% if by_user is defined %}
+            <h1>Posts by {{by_user.username}}</h1>
+        {% else %}
+            <h1>All posts</h1>
+        {% endif %}
+
         {% for post in posts %}
             <div class="post">
                 <div class="meta">
-                    {{ post.author.username }} {{ post.created_at|format_datetime }}
+                    <a href="/users/{{post.author.username}}">{{ post.author.username }}</a>
+                    {{ post.created_at|format_datetime }}
                     {% if post.in_reply_to_post_id %}
                         <br><strong>Reply to post ID:</strong> {{ post.in_reply_to_post_id }}
                     {% endif %}
@@ -62,26 +44,27 @@
                     {% endif %}
                 </div>
                 <p>{{ post.content }}</p>
-                {% if user_logged_in == post.author.id %}
-                    <form method="post" action="delete">
+
+                {% if user_logged_in %}
+                    <form method="post" action="like" id="like-form">
                         <input type="hidden" name="post_id" value="{{post.id}}">
-                        <button type="submit" style="
-                            display: inline-flex;
-                            align-items: center;
-                            gap: 0.4rem;
-                            background: none;
-                            color: black;
-                            padding: 0;
-                            border: none;
-                            cursor: pointer;
-                            margin-bottom: 1rem;
-                            text-decoration: underline;
-                        ">
-                            Delete
+                        <button type="submit" class="like-button">
+                            ♡ {{post.likes | length}}
+                        </button>
+                    </form>
+                {% endif %}
+
+                {% if user_logged_in == post.author.id %}
+                    <form method="post" action="delete" id="delete-form">
+                        <input type="hidden" name="post_id" value="{{post.id}}">
+                        <button type="submit" class="delete-button">
+                            🗑 Delete
                         </button>
 
                     </form>
                 {% endif %}
+
+
             </div>
         {% else %}
             <p>No posts available.</p>
@@ -90,35 +73,13 @@
         {% if user_logged_in %}
         <br>
         <form action="/auth/logout" method="post" style="display:inline;">
-            <button type="submit" style="
-                display: inline-flex;
-                align-items: center;
-                gap: 0.4rem;
-                background-color: #555;
-                color: white;
-                padding: 0.5rem 1rem;
-                border: none;
-                border-radius: 4px;
-                font-weight: bold;
-                cursor: pointer;
-                margin-bottom: 1rem;
-                margin-left: 0.5rem;
-            ">
+            <button type="submit">
                 &#x274C; Logout
             </button>
         </form>
         {% endif %}
 
-        <a href="https://github.com/mrkickling/microblog" style="
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            color: black;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            text-decoration: underline;
-            margin-bottom: 1rem;
-        ">
+        <a href="https://github.com/mrkickling/microblog">
             Source
         </a>
     </div>

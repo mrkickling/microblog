@@ -1,6 +1,6 @@
 from typing import Optional
 
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 from pydantic import BaseModel
 
 from fastapi.requests import Request
@@ -10,7 +10,7 @@ from fastapi import APIRouter, HTTPException, Depends, Form
 from .auth import get_current_user_id, get_current_user_id_optional
 
 from ..database import get_db
-from ..models import User, MicroblogPost
+from ..models import User, MicroblogPost, PostLike
 from ..template_utils import templates
 
 posts = APIRouter()
@@ -43,6 +43,7 @@ def view_all_posts(
     """Render page with all posts"""
     all_posts = (
         db.query(MicroblogPost)
+        .options(selectinload(MicroblogPost.likes))
         .order_by(MicroblogPost.created_at.desc())
         .all()
     )
@@ -101,7 +102,7 @@ def delete_post_via_form(
     post_id: Optional[str] = Form(None),
     db: Session = Depends(get_db),
 ):
-    """Create posts from submitted form"""
+    """Delete posts from submitted form"""
     user = db.query(User).filter(User.id == author_id).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
@@ -113,6 +114,39 @@ def delete_post_via_form(
 
     if post:
         db.delete(post)
+        db.commit()
+
+    return RedirectResponse(url="/posts", status_code=303)
+
+
+@posts.post("/like")
+def like_post_via_form(
+    request: Request,
+    liked_by: int = Depends(get_current_user_id),
+    post_id: Optional[str] = Form(None),
+    db: Session = Depends(get_db),
+):
+    """Create like from submitted form"""
+    user = db.query(User).filter(User.id == liked_by).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    post = db.query(MicroblogPost).filter(
+        MicroblogPost.id == post_id
+    ).first()
+
+    like = db.query(PostLike).filter(
+        PostLike.post_id == post_id,
+        PostLike.user_id == liked_by
+    ).first()
+
+    if post and not like:
+        # Create like if post exists but like does not
+        like = PostLike(
+            post_id=post_id,
+            user_id=liked_by
+        )
+        db.add(like)
         db.commit()
 
     return RedirectResponse(url="/posts", status_code=303)
