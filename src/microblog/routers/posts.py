@@ -43,6 +43,7 @@ def view_all_posts(
     """Render page with all posts"""
     all_posts = (
         db.query(MicroblogPost)
+        .filter(MicroblogPost.in_reply_to_post_id == None)
         .options(selectinload(MicroblogPost.likes))
         .order_by(MicroblogPost.created_at.desc())
         .all()
@@ -52,17 +53,29 @@ def view_all_posts(
         {
             "request": request,
             "posts": all_posts,
-            "user_logged_in": user_id
+            "user_id_logged_in": user_id,
+            "user_logged_in": db.query(User).get(user_id) if user_id else None
         }
     )
 
-@posts.get("/create", response_class=HTMLResponse)
-def create_post_form(
-    request: Request, author_id: int = Depends(get_current_user_id)
+
+@posts.get("/{post_id}", response_class=HTMLResponse)
+def view_single_posts(
+    request: Request,
+    post_id: int,
+    user_id: Optional[int] = Depends(get_current_user_id_optional),
+    db: Session = Depends(get_db)
 ):
-    """Render page with form to create new post"""
+    """Render page with single post"""
+    post = db.query(MicroblogPost).filter_by(id=post_id).first()
     return templates.TemplateResponse(
-        "create_post.html", {"request": request}
+        "post.html",
+        {
+            "request": request,
+            "post": post,
+            "user_id_logged_in": user_id,
+            "user_logged_in": db.query(User).get(user_id) if user_id else None
+        }
     )
 
 
@@ -92,7 +105,7 @@ def create_post_via_form(
     )
     db.add(new_post)
     db.commit()
-    return RedirectResponse(url="/posts", status_code=303)
+    return RedirectResponse(url=f"/posts/{new_post.id}", status_code=303)
 
 
 @posts.post("/delete")
@@ -147,6 +160,9 @@ def like_post_via_form(
             user_id=liked_by
         )
         db.add(like)
+        db.commit()
+    elif post and like:
+        db.delete(like)
         db.commit()
 
     return RedirectResponse(url="/posts", status_code=303)

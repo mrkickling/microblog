@@ -14,6 +14,68 @@ body {
   padding: 2rem;
 }
 
+header {
+  background: #2563EB;
+  background: linear-gradient(0deg,rgba(37, 99, 235, 1) 0%, rgba(116, 143, 212, 1) 100%);  max-width: 900px;
+  width: 100%;
+  color: white;
+  padding: 20px;
+}
+
+header a {
+  color: white;
+}
+
+.signin-register-container {
+  float: right;
+  margin-top: 5px;
+}
+
+.logout-button {
+  background: none;
+  color: white;
+  border: 0;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.logout-button:hover {
+  text-decoration: underline;
+}
+
+#login-form {
+    margin-top: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#login-form input[type="text"], #login-form input[type="password"] {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  color: #1f2937;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+}
+
+#login-form button {
+  margin-top: 10px;
+  width: 100%;
+  align-self: flex-start;
+  background: #2563EB;
+  background: linear-gradient(0deg,rgba(37, 99, 235, 1) 0%, rgba(116, 143, 212, 1) 100%);  max-width: 900px;
+  color: #ffffff;
+  font-weight: 600;
+  padding: 1rem 1.2rem;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+
 a {
   color: #2563eb;
   text-decoration: none;
@@ -25,38 +87,12 @@ a:hover {
 
 /* Container */
 .container {
-  max-width: 700px;
+  max-width: 900px;
   margin: 0 auto;
   background-color: #ffffff;
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-}
-
-/* Header */
-h1, h2 {
-  margin-bottom: 1rem;
-  color: #111827;
-}
-
-/* Login/Logout */
-.login-button,
-.container form button[type="submit"] {
-  background-color: #2563eb;
-  color: #ffffff;
-  font-weight: 600;
-  padding: 0.5rem 1rem;
-  font-size: 0.95rem;
-  border: none;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  margin-bottom: 1rem;
-}
-
-.login-button:hover,
-.container form button[type="submit"]:hover {
-  background-color: #1d4ed8;
 }
 
 /* Form box */
@@ -79,7 +115,7 @@ h1, h2 {
   color: #374151;
 }
 
-.form-box textarea {
+.form-box textarea, .reply-form textarea {
   width: 100%;
   padding: 1rem;
   font-size: 1rem;
@@ -100,7 +136,8 @@ h1, h2 {
 
 .write-post-button {
   align-self: flex-start;
-  background-color: #10b981;
+  background: #2563EB;
+  background: linear-gradient(0deg,rgba(37, 99, 235, 1) 0%, rgba(116, 143, 212, 1) 100%);  max-width: 900px;
   color: #ffffff;
   font-weight: 600;
   padding: 0.6rem 1.2rem;
@@ -112,7 +149,8 @@ h1, h2 {
 }
 
 .write-post-button:hover {
-  background-color: #059669;
+  background: #2563EB;
+  background: linear-gradient(0deg,rgba(37, 99, 235, 1) 0%, rgba(116, 143, 212, 1) 50%);  max-width: 900px;
 }
 
 /* Post styling */
@@ -135,6 +173,11 @@ h1, h2 {
   font-weight: 600;
 }
 
+.post .meta .datetime-link {
+  font-weight: normal;
+  color: #6b7280;
+}
+
 .post p {
   font-size: 1rem;
   margin-top: 0.5rem;
@@ -149,11 +192,9 @@ h1, h2 {
 }
 
 .like-button,
-.delete-button {
-  font-size: 0.85rem;
-  padding: 0.4rem 0.8rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.375rem;
+.delete-button,
+.reply-button {
+  background: none;
   cursor: pointer;
   line-height: 1;
   display: inline-flex;
@@ -161,27 +202,12 @@ h1, h2 {
   justify-content: center;
   gap: 0.3rem;
   height: 2rem;
-}
-
-.like-button {
-  background-color: #f0f9ff;
-  color: #0369a1;
-}
-
-.like-button:hover {
-  background-color: #e0f2fe;
-  border-color: #38bdf8;
-}
-
-.delete-button {
-  background-color: #fef2f2;
-  color: #7f1d1d;
-  border-color: #fca5a5;
-}
-
-.delete-button:hover {
-  background-color: #fee2e2;
-  border-color: #ef4444;
+  color: #343c42;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 0.5rem;
 }
 
 /* Source link */
@@ -195,4 +221,16 @@ h1, h2 {
 
 .container > a[href*="github"]:hover {
   color: #374151;
+}
+
+.reply-form {
+    margin-top: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.replies {
+  margin-left: 30px;
 }

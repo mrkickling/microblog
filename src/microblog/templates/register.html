@@ -3,23 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logga in</title>
+    <title>Registrera dig</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
     {% include "header.html" %}
 
     <div class="container">
-        <h1>Logga in på din microblog</h1>
+        <h1>Registrera din microblog</h1>
         <form method="post" id="login-form">
             <label for="username">Användarnamn</label>
             <input type="text" name="username" required>
 
+            <label for="username">E-post</label>
+            <input type="text" name="email" required>
+
             <label for="username">Lösenord</label>
             <input type="password" name="password" required>
 
-
-            <button type="submit">Logga in</button>
+            <button type="submit">Registrera</button>
         </form>
     </div>
 </body>

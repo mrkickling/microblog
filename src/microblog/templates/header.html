@@ -1,0 +1,26 @@
+<header>
+        <div class="signin-register-container">
+            {% if not user_logged_in %}
+                <a href="/auth/login">
+                    Logga in
+                </a>
+                -
+                <a href="/auth/register">
+                    Registrera dig
+                </a>
+            {% else %}
+
+                <form action="/auth/logout" method="post" style="display:inline;">
+                    <button type="submit" class="logout-button">
+                        Logga ut
+                    </button>
+                </form>
+
+            {% endif %}
+        </div>
+
+
+    <h2>
+        <a href="/">Microblog</a>
+    </h2>
+</header>

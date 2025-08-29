@@ -1,0 +1,52 @@
+<div class="post">
+    <div class="meta">
+        <a href="/users/{{post.author.username}}">{{ post.author.username }}</a>
+        <a href="/posts/{{post.id}}" class="datetime-link">
+            {{ post.created_at|format_datetime }}
+        </a>
+        {% if post.reply_to %}
+            <br><strong> Svar till:</strong> <a href="/posts/{{post.reply_to.id}}">{{ post.reply_to.author.username }}</a>
+        {% endif %}
+    </div>
+    <p>{{ post.content }}</p>
+    
+    {% if post.replies %}
+        <a href="/posts/{{post.id}}">{{post.replies | length}} svar</a>
+    {% endif %}
+
+    {% if user_logged_in %}
+        <button
+            type="button"
+            class="reply-button"
+            onclick="toggleReplyForm({{post.id}})">Svara</button>
+    {% endif %}
+
+    <form method="post" action="like" id="like-form">
+        <input type="hidden" name="post_id" value="{{post.id}}">
+        <button type="submit" class="like-button">
+            {% if user_logged_in in post.liked_by %}
+                ♥
+            {% else %}
+                ♡
+            {% endif %}
+            
+            {{post.likes | length}}
+        </button>
+    </form>
+
+    {% if user_id_logged_in == post.author.id %}
+        <form method="post" action="delete" id="delete-form">
+            <input type="hidden" name="post_id" value="{{post.id}}">
+            <button type="submit" class="delete-button">
+                🗑 Radera
+            </button>
+        </form>
+    {% endif %}
+
+    <form method="post" action="/posts/create" class="reply-form" id="reply-form-{{ post.id }}" style="display:none;">
+        <input type="hidden" name="in_reply_to_post_id" value="{{ post.id }}">
+        <input type="hidden" name="in_reply_to_user_id" value="{{ post.author.id }}">
+        <textarea name="content" required placeholder="Svara något med eftertanke"></textarea>
+        <button type="submit" class="reply-button">&#9998; Skicka</button>
+    </form>
+</div>

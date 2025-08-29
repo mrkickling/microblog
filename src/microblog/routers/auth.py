@@ -70,10 +70,49 @@ def login(
         url="/posts", status_code=303
     )
     redirect_response.set_cookie(
-        key="session_token", value=token, httponly=True, secure=False
+        key="session_token",
+        value=token,
+        httponly=True,
+        secure=False,
+        max_age=60 * 60 * 24 * 30,   # 30 days in seconds
+        expires=60 * 60 * 24 * 30    # some clients require explicit expires
     )
 
     return redirect_response
+
+
+@auth.get("/register", response_class=HTMLResponse)
+def register_form(request: Request):
+    """Render login form page"""
+    return templates.TemplateResponse("register.html", {"request": request})
+
+
+@auth.post("/register")
+def register(
+    request: Request,
+    response: Response,
+    username: str = Form(...),
+    password: str = Form(...),
+    email: str = Form(...),
+    db: Session = Depends(get_db),
+):
+    """If correct credentials, create token and store in session cookie"""
+    user = db.query(User).filter(User.username == username).first()
+    if user:
+        raise HTTPException(status_code=400, detail="Username already taken")
+
+    new_user = User(
+        username=username,
+        email=email,
+        hashed_password=bcrypt.hash(password)
+    )
+
+    db.add(new_user)
+    db.commit()
+
+    return RedirectResponse(
+        url="/auth/login", status_code=303
+    )
 
 @auth.post("/logout")
 def logout():

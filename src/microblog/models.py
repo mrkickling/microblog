@@ -29,13 +29,31 @@ class MicroblogPost(Base):
     in_reply_to_user_id = Column(Integer, ForeignKey("users.id", ondelete="SET NULL"), nullable=True)
 
     author = relationship("User", back_populates="posts", foreign_keys=[author_id])
-    replies = relationship("MicroblogPost", backref="parent_post", remote_side=[id])
-
+    replies = relationship(
+        "MicroblogPost",
+        back_populates="reply_to",
+        cascade="all, delete-orphan",
+        passive_deletes=True,
+        foreign_keys=[in_reply_to_post_id]
+    )
+    reply_to = relationship(
+        "MicroblogPost",
+        remote_side=[id],
+        primaryjoin="MicroblogPost.in_reply_to_post_id==MicroblogPost.id",
+        uselist=False
+    )
     likes = relationship(
         "PostLike",
         back_populates="post",
         foreign_keys=[PostLike.post_id],
         cascade="all, delete-orphan"
+    )
+    # many-to-many Post <-> User through PostLike
+    liked_by = relationship(
+        "User",
+        secondary="microblog_likes",
+        back_populates="liked_posts",
+        viewonly=True
     )
 
 class User(Base):
@@ -58,4 +76,11 @@ class User(Base):
         back_populates="liked_by",
         foreign_keys=[PostLike.user_id],
         cascade="all, delete-orphan"
+    )
+    # many-to-many User <-> Post through PostLike
+    liked_posts = relationship(
+        "MicroblogPost",
+        secondary="microblog_likes",
+        back_populates="liked_by",
+        viewonly=True
     )

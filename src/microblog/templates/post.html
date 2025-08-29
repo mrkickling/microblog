@@ -11,23 +11,16 @@
 
     <div class="container">
 
-        {% if user_logged_in %}
+        {% include "single_post.html" %}
 
-            {% include "create_post.html" %}
-
-        {% endif %}
-
-
-        {% if by_user is defined %}
-            <h1>{{by_user.username}}s microblog</h1>
-            <br>
-        {% endif %}
-
-        {% for post in posts %}
-            {% include "single_post.html" %}
-        {% else %}
-            <p>No posts available.</p>
-        {% endfor %}
+        <div class="replies">
+            {% set parent_post = post %}
+            {% if parent_post.replies %}
+                {% for post in parent_post.replies %}
+                    {% include "single_post.html" %}
+                {% endfor %}
+            {% endif %}
+        </div>
 
         <a href="https://github.com/mrkickling/microblog">
             Source
