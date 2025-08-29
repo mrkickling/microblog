@@ -20,6 +20,7 @@ header {
   width: 100%;
   color: white;
   padding: 20px;
+  margin: auto;
 }
 
 header a {
@@ -91,7 +92,7 @@ a:hover {
   margin: 0 auto;
   background-color: #ffffff;
   padding: 2rem;
-  border-radius: 1rem;
+  border-radius: 0rem 0rem 1rem 1rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
@@ -155,7 +156,7 @@ a:hover {
 
 /* Post styling */
 .post {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   padding: 1.5rem;
   background-color: #ffffff;
   border: 1px solid #e5e7eb;

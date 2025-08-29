@@ -5,7 +5,7 @@
             {{ post.created_at|format_datetime }}
         </a>
         {% if post.reply_to %}
-            <br><strong> Svar till:</strong> <a href="/posts/{{post.reply_to.id}}">{{ post.reply_to.author.username }}</a>
+            - <strong> Svar på</strong> <a href="/posts/{{post.reply_to.id}}">{{ post.reply_to.author.username }}s inlägg</a>
         {% endif %}
     </div>
     <p>{{ post.content }}</p>
@@ -38,7 +38,7 @@
         <form method="post" action="delete" id="delete-form">
             <input type="hidden" name="post_id" value="{{post.id}}">
             <button type="submit" class="delete-button">
-                🗑 Radera
+                🗑
             </button>
         </form>
     {% endif %}
