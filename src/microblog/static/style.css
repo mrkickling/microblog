@@ -11,7 +11,6 @@ body {
   background-color: #f3f4f6;
   color: #1f2937;
   line-height: 1.5;
-  padding: 2rem;
 }
 
 header {
@@ -21,6 +20,7 @@ header {
   color: white;
   padding: 20px;
   margin: auto;
+  margin-top: 2em;
 }
 
 header a {
@@ -234,4 +234,16 @@ a:hover {
 
 .replies {
   margin-left: 30px;
+}
+
+@media screen and (max-width: 600px) {
+  header {
+    width: 100%;
+    margin: 0;
+  }
+
+  .container {
+    width: 100%;
+    margin: 0;
+  }
 }
